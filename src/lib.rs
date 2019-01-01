@@ -3,9 +3,11 @@
 pub mod observer;
 // pub mod observer_pull;
 pub mod decorator;
+pub mod factory_method;
 pub mod strategy;
 
 use crate::decorator::{Beverage, DarkRost, Espresso, HouseBlend, Mocha, Soy, Whip};
+use crate::factory_method::{ChicagoPizzaStore, NYPizzaStore, Pizza, PizzaStore};
 use crate::observer::{CurrentConditionsDisplay, Subject, WeatherDate};
 use crate::strategy::{Duck, FlyBehavior, FlyRocketPowered, MallardDuck, ModelDuck};
 
@@ -17,8 +19,8 @@ mod tests {
         let mallard = MallardDuck::new();
         mallard.perform_quack();
         mallard.perform_fly();
+        println!("\n");
 
-        println!("------------------");
         let model = ModelDuck::new();
         model.perform_fly();
         let r = Box::new(FlyRocketPowered);
@@ -55,5 +57,17 @@ mod tests {
         let beravage3 = Mocha::new(Box::new(beravage3));
         let beravage3 = Whip::new(Box::new(beravage3));
         println!("{} ${}", beravage3.description(), beravage3.cost());
+    }
+
+    #[test]
+    fn test_factory_method() {
+        let ny_store = NYPizzaStore::new();
+        let chicago_store = ChicagoPizzaStore::new();
+
+        let pizza = ny_store.order_pizza("cheese");
+        println!("Ethan ordered a {}\n", pizza.name());
+
+        let pizza = chicago_store.order_pizza("cheese");
+        println!("Joel ordered a {}", pizza.name())
     }
 }
