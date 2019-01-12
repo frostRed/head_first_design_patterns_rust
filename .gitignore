@@ -1,3 +1,4 @@
 .pijul/
 .vscode/
 target/
+.idea/
