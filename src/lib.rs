@@ -1,14 +1,18 @@
 #![feature(vec_remove_item)]
+use lazy_static;
 
 pub mod observer;
 // pub mod observer_pull;
 pub mod decorator;
+//pub mod factory_abstracted;
 pub mod factory_method;
+pub mod singleton;
 pub mod strategy;
 
 use crate::decorator::{Beverage, DarkRost, Espresso, HouseBlend, Mocha, Soy, Whip};
 use crate::factory_method::{ChicagoPizzaStore, NYPizzaStore, Pizza, PizzaStore};
 use crate::observer::{CurrentConditionsDisplay, Subject, WeatherDate};
+use crate::singleton::{ChocolateBoiler, C};
 use crate::strategy::{Duck, FlyBehavior, FlyRocketPowered, MallardDuck, ModelDuck};
 
 #[cfg(test)]
@@ -69,5 +73,20 @@ mod tests {
 
         let pizza = chicago_store.order_pizza("cheese");
         println!("Joel ordered a {}", pizza.name())
+    }
+
+    #[test]
+    fn test_singleton() {
+        println!(
+            "{} {}",
+            C.read().unwrap().is_empty(),
+            C.read().unwrap().is_boiled()
+        );
+        C.write().unwrap().fill();
+        println!(
+            "{} {}",
+            C.read().unwrap().is_empty(),
+            C.read().unwrap().is_boiled()
+        );
     }
 }
