@@ -7,6 +7,7 @@ pub mod decorator;
 //pub mod factory_abstracted;
 pub mod adapter;
 pub mod command;
+pub mod facade;
 pub mod factory_method;
 pub mod singleton;
 pub mod strategy;
