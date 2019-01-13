@@ -8,6 +8,7 @@ pub mod decorator;
 pub mod factory_method;
 pub mod singleton;
 pub mod strategy;
+pub mod command;
 
 use crate::decorator::{Beverage, DarkRost, Espresso, HouseBlend, Mocha, Soy, Whip};
 use crate::factory_method::{ChicagoPizzaStore, NYPizzaStore, Pizza, PizzaStore};
