@@ -127,60 +127,41 @@ impl DinerMenu {
 }
 
 /// 迭代器类
-struct DinerMenuIterator {
+struct MenuIterator<'a> {
     position: usize,
-    items: [MenuItem; MAX_ITEMS],
+    items: &'a [MenuItem],
 }
 
-impl Iterator for DinerMenuIterator {
-    type Item = MenuItem;
+impl<'a> Iterator for MenuIterator<'a> {
+    type Item = &'a MenuItem;
     fn next(&mut self) -> Option<Self::Item> {
         if self.position < self.items.len() {
-            let item = self.items[self.position].clone();
             self.position += 1;
-            Some(item)
+            Some(&self.items[self.position - 1])
         } else {
             None
         }
     }
 }
 
-impl IntoIterator for DinerMenu {
-    type Item = MenuItem;
-    type IntoIter = DinerMenuIterator;
+impl<'a> IntoIterator for &'a DinerMenu {
+    type Item = &'a MenuItem;
+    type IntoIter = MenuIterator<'a>;
     fn into_iter(self) -> Self::IntoIter {
-        DinerMenuIterator {
+        MenuIterator {
             position: 0,
-            items: self.menu_items,
+            items: &self.menu_items,
         }
     }
 }
 
-struct PancakeHouseIterator {
-    position: usize,
-    items: Vec<MenuItem>,
-}
-
-impl Iterator for PancakeHouseIterator {
-    type Item = MenuItem;
-    fn next(&mut self) -> Option<Self::Item> {
-        if self.position < self.items.len() {
-            let item = self.items[self.position].clone();
-            self.position += 1;
-            Some(item)
-        } else {
-            None
-        }
-    }
-}
-
-impl IntoIterator for PancakeHouseMenu {
-    type Item = MenuItem;
-    type IntoIter = PancakeHouseIterator;
+impl<'a> IntoIterator for &'a PancakeHouseMenu {
+    type Item = &'a MenuItem;
+    type IntoIter = MenuIterator<'a>;
     fn into_iter(self) -> Self::IntoIter {
-        PancakeHouseIterator {
+        MenuIterator {
             position: 0,
-            items: self.menu_items,
+            items: &self.menu_items,
         }
     }
 }
@@ -204,10 +185,7 @@ impl Waitress {
     }
 }
 
-fn print<T>(ite: &impl IntoIterator<Item = MenuItem, IntoIter = T>)
-where
-    T: Iterator<Item = MenuItem>,
-{
+fn print<'a>(ite: impl IntoIterator<Item = &'a MenuItem, IntoIter = MenuIterator<'a>>) {
     for i in ite {
         println!("{}, {} -- {}", i.name, i.price, i.description);
     }
