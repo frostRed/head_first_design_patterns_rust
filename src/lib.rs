@@ -13,6 +13,7 @@ pub mod singleton;
 pub mod strategy;
 pub mod template_method;
 pub mod iterator;
+pub mod composite;
 
 use crate::decorator::{Beverage, DarkRost, Espresso, HouseBlend, Mocha, Soy, Whip};
 use crate::factory_method::{ChicagoPizzaStore, NYPizzaStore, Pizza, PizzaStore};
