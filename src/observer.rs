@@ -14,7 +14,7 @@ where
 
 pub struct WeatherDate<T: Observer> {
     // 不能用 HashSet，因为它不能 for i in &mut hashset
-    // 存的也是RecCell<T>不能是T
+    // 存的也是RefCell<T>不能是T
     observers: Vec<std::rc::Rc<std::cell::RefCell<T>>>,
     temperature: f64,
     humidity: f64,
