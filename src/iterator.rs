@@ -195,6 +195,6 @@ fn print<'a>(ite: impl IntoIterator<Item = &'a MenuItem, IntoIter = MenuIterator
 fn test_iterator() {
     let pancake_house_menu = PancakeHouseMenu::new();
     let diner_menu = DinerMenu::new();
-    let waitess = Waitress::new(pancake_house_menu, diner_menu);
-    waitess.print_menu();
+    let waitress = Waitress::new(pancake_house_menu, diner_menu);
+    waitress.print_menu();
 }
