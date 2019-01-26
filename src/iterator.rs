@@ -166,7 +166,67 @@ impl<'a> IntoIterator for &'a PancakeHouseMenu {
     }
 }
 
+struct DinerMenuIterator {
+    position: usize,
+    items: [MenuItem; MAX_ITEMS],
+}
+
+impl Iterator for DinerMenuIterator {
+    type Item = MenuItem;
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.position < self.items.len() {
+            let item = self.items[self.position].clone();
+            self.position += 1;
+            Some(item)
+        } else {
+            None
+        }
+    }
+}
+
+impl IntoIterator for DinerMenu {
+    type Item = MenuItem;
+    type IntoIter = DinerMenuIterator;
+    fn into_iter(self) -> Self::IntoIter {
+        DinerMenuIterator {
+            position: 0,
+            items: self.menu_items,
+        }
+    }
+}
+
+struct PancakeHouseIterator {
+    position: usize,
+    items: Vec<MenuItem>,
+}
+
+impl Iterator for PancakeHouseIterator {
+    type Item = MenuItem;
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.position < self.items.len() {
+            let item = self.items[self.position].clone();
+            self.position += 1;
+            Some(item)
+        } else {
+            None
+        }
+    }
+}
+
+impl IntoIterator for PancakeHouseMenu {
+    type Item = MenuItem;
+    type IntoIter = PancakeHouseIterator;
+    fn into_iter(self) -> Self::IntoIter {
+        PancakeHouseIterator {
+            position: 0,
+            items: self.menu_items,
+        }
+    }
+}
+
+/// 使用方
 struct Waitress {
+    // todo 如何统一用 vec 来装所有菜单？
     pancake_house_menu: PancakeHouseMenu,
     diner_menu: DinerMenu,
 }
